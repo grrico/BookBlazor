@@ -5,9 +5,22 @@
 
 <h3>Mapa</h3>
 
-<div class="input-group-append">
-    <div id="map" style="height:500px;width:100%;"></div>
-</div>
+@if (bookLatLngs == null)
+{
+    <img src="https://media.giphy.com/media/y1ZBcOGOOtlpC/giphy.gif" />
+    <text>Cargando ...</text>
+}
+else if (bookLatLngs.Count() == 0)
+{
+    <text>No hay registros a mostrar.</text>
+}
+else
+{
+    <div class="input-group-append">
+        <div id="map" style="height:500px;width:100%;"></div>
+    </div>
+}
+
 
 
 
