@@ -28,7 +28,7 @@ namespace BookApp.Data
         {
             var bookLatlngs = Task.FromResult(_dapperService.
             GetAll<BookLatLng>($"SELECT Id, IsBn, Latitud, Longitud FROM BookLatLng " +
-            //$"WHERE IsBn = '{search}'" +
+            $"WHERE IsBn = '{search}'" +
             $"ORDER BY {orderBy} " +
             $"{direction} OFFSET {skip} ROWS FETCH NEXT {take} " +
             $"ROWS ONLY;", null, commandType: CommandType.Text));

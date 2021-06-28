@@ -125,58 +125,6 @@ using BookApp.Entities;
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 8 "C:\GitHub\Book\BookBlazor\BookApp\Pages\Index.razor"
-      
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            List<BookLatLng> coordinates = new List<BookLatLng>();
-
-            BookLatLng booklatlng = new BookLatLng()
-            {
-                ID = 1,
-                ISBN = 9781292061184,
-                Latitud = "6.317980459309707",
-                Longitud = "-75.55077105765477",
-            };
-            coordinates.Add(booklatlng);
-
-            //6.317980459309707, -75.55077105765477
-            //6.317263373432214, -75.55338504108262
-            //6.317476647167622, -75.55383833440473
-            booklatlng = new BookLatLng()
-            {
-                ID = 1,
-                ISBN = 9781292061184,
-                Latitud = "6.317263373432214",
-                Longitud = "-75.55338504108262",
-            };
-            coordinates.Add(booklatlng);
-
-
-            booklatlng = new BookLatLng()
-            {
-                ID = 1,
-                ISBN = 9781292061184,
-                Latitud = "6.317476647167622",
-                Longitud = "-75.55383833440473",
-            };
-            coordinates.Add(booklatlng);
-
-
-            var zoom = 15;
-            await JSRuntime.InvokeVoidAsync("initialize", coordinates, booklatlng, zoom);
-            StateHasChanged();
-        }
-
-    }
-
-#line default
-#line hidden
-#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
     }
 }
