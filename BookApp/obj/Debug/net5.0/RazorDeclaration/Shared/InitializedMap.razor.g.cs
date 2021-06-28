@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace BookApp.Pages.Book.Map
+namespace BookApp.Shared
 {
     #line hidden
     using System;
@@ -117,14 +117,61 @@ using BookApp.Entities;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/Book/Map/BookMaps")]
-    public partial class BookMaps : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class InitializedMap : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 21 "C:\GitHub\Book\BookBlazor\BookApp\Shared\InitializedMap.razor"
+       
+
+    string searchTerm { get; set; }
+    int curPage;
+    int pagerSize;
+    int pageSize;
+    string sortColumnName = "ID";
+    string sortDir = "DESC";
+
+    List<BookLatLng> bookLatLngs;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //await Task.Delay(300);
+
+        pagerSize = 3;
+        pageSize = 8;
+        curPage = 1;
+        bookLatLngs = await bookLatLngService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (bookLatLngs == null)
+        {
+            pagerSize = 3;
+            pageSize = 8;
+            curPage = 1;
+            bookLatLngs = await bookLatLngService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+        }
+
+        if (firstRender)
+        {
+            var zoom = 15;
+            BookLatLng booklatlng = bookLatLngs.FirstOrDefault();
+            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom);
+        }
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IBookLatLngService bookLatLngService { get; set; }
     }
 }
 #pragma warning restore 1591
