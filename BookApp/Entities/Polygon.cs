@@ -12,7 +12,7 @@ namespace BookApp.Entities
 
         public long Id { get; set; }
         public long? ProjectId { get; set; }
-        public string NameProyecto { get; set; }
+        public string NameProyect { get; set; }
         public string Icon { get; set; }
         public decimal? Scale { get; set; }
         public string NamePolygon { get; set; }

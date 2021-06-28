@@ -140,6 +140,9 @@ using BookApp.Entities;
 
     protected override async Task OnInitializedAsync()
     {
+
+        //await Task.Delay(300);
+
         pagerSize = 3;
         pageSize = 8;
         curPage = 1;
