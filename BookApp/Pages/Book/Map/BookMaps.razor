@@ -1,0 +1,52 @@
+﻿@page "/Book/Map/BookMaps"
+@inject IBookLatLngService bookLatLngService
+@inject IJSRuntime JSRuntime
+
+
+<h3>Mapa</h3>
+
+<div class="input-group-append">
+    <div id="map" style="height:500px;width:100%;"></div>
+</div>
+
+
+
+@code {
+
+    string searchTerm { get; set; }
+    int curPage;
+    int pagerSize;
+    int pageSize;
+    string sortColumnName = "ID";
+    string sortDir = "DESC";
+
+    List<BookLatLng> bookLatLngs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        pagerSize = 3;
+        pageSize = 8;
+        curPage = 1;
+        bookLatLngs = await bookLatLngService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (bookLatLngs == null)
+        {
+            pagerSize = 3;
+            pageSize = 8;
+            curPage = 1;
+            bookLatLngs = await bookLatLngService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+        }
+
+        if (firstRender)
+        {
+            var zoom = 15;
+            BookLatLng booklatlng = bookLatLngs.FirstOrDefault();
+            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom);
+        }
+    }
+}
+
