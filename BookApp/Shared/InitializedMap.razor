@@ -67,13 +67,19 @@ else
         if (firstRender)
         {
 
-            //var verticesLinea = [
-            //    { lat: 6.316550441245649, lng: -75.55153387311388 },
 
+            int cont = 0;
+            string[] verticesLinea = new string[PolygonCoordinates.Count];
+            //{ lat: 6.317126129472491, lng: -75.55216700289957 },
+            foreach (PolygonCoordinates polygonCoordinate in PolygonCoordinates)
+            {
+                verticesLinea[cont] = new string("{" + $"lat: {polygonCoordinate.Latitude}, lng: {polygonCoordinate.Longitude}" +"},");
+                cont++;
+            }
 
             var zoom = 15;
             BookLatLng booklatlng = bookLatLngs.FirstOrDefault();
-            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom);
+            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom, verticesLinea);
         }
     }
 }
