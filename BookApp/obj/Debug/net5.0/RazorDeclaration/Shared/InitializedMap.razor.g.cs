@@ -117,6 +117,13 @@ using BookApp.Entities;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 5 "C:\GitHub\Book\BookBlazor\BookApp\Shared\InitializedMap.razor"
+using System.Text.Json;
+
+#line default
+#line hidden
+#nullable disable
     public partial class InitializedMap : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -125,7 +132,7 @@ using BookApp.Entities;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 23 "C:\GitHub\Book\BookBlazor\BookApp\Shared\InitializedMap.razor"
+#line 26 "C:\GitHub\Book\BookBlazor\BookApp\Shared\InitializedMap.razor"
        
 
     [Parameter] public string searchTerm { get; set; }
@@ -139,7 +146,7 @@ using BookApp.Entities;
 
 
     List<BookLatLng> bookLatLngs;
-    List<PolygonCoordinates> PolygonCoordinates;
+    List<PolygonCoordinates> polygonCoordinates;
 
     protected override async Task OnInitializedAsync()
     {
@@ -157,7 +164,7 @@ using BookApp.Entities;
 
         searchTerm = "1";
         pageSize = 1000;
-        PolygonCoordinates = await polygonCoordinates.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+        polygonCoordinates = await polygonCoordinatesService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -173,19 +180,25 @@ using BookApp.Entities;
         if (firstRender)
         {
 
-
-            int cont = 0;
-            string[] verticesLinea = new string[PolygonCoordinates.Count];
-            //{ lat: 6.317126129472491, lng: -75.55216700289957 },
-            foreach (PolygonCoordinates polygonCoordinate in PolygonCoordinates)
+            List<LatLng> lLatLngs = new List<LatLng>();
+            LatLng lLatLng;
+            foreach (PolygonCoordinates coodenada in polygonCoordinates)
             {
-                verticesLinea[cont] = new string("{" + $"lat: {polygonCoordinate.Latitude}, lng: {polygonCoordinate.Longitude}" +"},");
-                cont++;
+                lLatLng = new LatLng{
+                    lat = coodenada.Latitude.Value,
+                    lng = coodenada.Longitude.Value
+                };
+                lLatLngs.Add(lLatLng);
             }
 
-            var zoom = 15;
+            //Creating a JavaScriptSerializer Object
+
+            string serializedString = System.Text.Json.JsonSerializer.Serialize(lLatLngs);
+
+
+            var zoom = 26;
             BookLatLng booklatlng = bookLatLngs.FirstOrDefault();
-            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom, verticesLinea);
+            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom, serializedString);
         }
     }
 
@@ -193,7 +206,7 @@ using BookApp.Entities;
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPolygonCoordinatesService polygonCoordinates { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPolygonCoordinatesService polygonCoordinatesService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IBookLatLngService bookLatLngService { get; set; }
     }
 }

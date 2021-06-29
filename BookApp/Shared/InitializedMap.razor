@@ -1,6 +1,9 @@
 ﻿@inject IBookLatLngService bookLatLngService
-@inject IPolygonCoordinatesService polygonCoordinates
+@inject IPolygonCoordinatesService polygonCoordinatesService
 @inject IJSRuntime JSRuntime
+
+@using System.Text.Json
+
 <h3>Initialized Map</h3>
 
 @if (bookLatLngs == null)
@@ -33,7 +36,7 @@ else
 
 
     List<BookLatLng> bookLatLngs;
-    List<PolygonCoordinates> PolygonCoordinates;
+    List<PolygonCoordinates> polygonCoordinates;
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,7 +54,7 @@ else
 
         searchTerm = "1";
         pageSize = 1000;
-        PolygonCoordinates = await polygonCoordinates.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+        polygonCoordinates = await polygonCoordinatesService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -67,19 +70,25 @@ else
         if (firstRender)
         {
 
-
-            int cont = 0;
-            string[] verticesLinea = new string[PolygonCoordinates.Count];
-            //{ lat: 6.317126129472491, lng: -75.55216700289957 },
-            foreach (PolygonCoordinates polygonCoordinate in PolygonCoordinates)
+            List<LatLng> lLatLngs = new List<LatLng>();
+            LatLng lLatLng;
+            foreach (PolygonCoordinates coodenada in polygonCoordinates)
             {
-                verticesLinea[cont] = new string("{" + $"lat: {polygonCoordinate.Latitude}, lng: {polygonCoordinate.Longitude}" +"},");
-                cont++;
+                lLatLng = new LatLng{
+                    lat = coodenada.Latitude.Value,
+                    lng = coodenada.Longitude.Value
+                };
+                lLatLngs.Add(lLatLng);
             }
 
-            var zoom = 15;
+            //Creating a JavaScriptSerializer Object
+
+            string serializedString = System.Text.Json.JsonSerializer.Serialize(lLatLngs);
+
+
+            var zoom = 26;
             BookLatLng booklatlng = bookLatLngs.FirstOrDefault();
-            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom, verticesLinea);
+            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom, serializedString);
         }
     }
 }
