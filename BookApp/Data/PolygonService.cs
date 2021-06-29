@@ -26,15 +26,15 @@ namespace BookApp.Data
             dbPara.Add("LineStyleColor", polygon.LineStyleColor, DbType.String);
             dbPara.Add("LineStyleWidth", polygon.LineStyleWidth, DbType.Int64);
             dbPara.Add("PolyStyleColor", polygon.PolyStyleColor, DbType.String);
-            var booklatlngId = Task.FromResult(_dapperService.Insert<long>("[dbo].[spAddLatLng]", dbPara, commandType: CommandType.StoredProcedure));
+            var booklatlngId = Task.FromResult(_dapperService.Insert<long>("[dbo].[spAddPolygon]", dbPara, commandType: CommandType.StoredProcedure));
             return booklatlngId;
         }
 
         public Task<List<Polygon>> ListAll(int skip, int take, string orderBy, string direction = "DESC", string search = "")
         {
             var polygons = Task.FromResult(_dapperService.
-            GetAll<Polygon>($"SELECT Id, ProjectId, NameProyect, Icon, Scale, NamePolygon, LineStyleColor, LineStyleWidth, PolyStyleColor FROM   Polygon p with (nolock) " +
-            $"WHERE where p.Id = {search}" +
+            GetAll<Polygon>($"SELECT Id, ProjectId, NameProyect, Icon, Scale, NamePolygon, LineStyleColor, LineStyleWidth, PolyStyleColor FROM Polygon p with (nolock) " +
+            $"WHERE p.Id = {search}" +
             $"ORDER BY {orderBy} " +
             $"{direction} OFFSET {skip} ROWS FETCH NEXT {take} " +
             $"ROWS ONLY;", null, commandType: CommandType.Text));
@@ -44,7 +44,7 @@ namespace BookApp.Data
         public Task<Polygon> ReadById(long id)
         {
             var polygon = Task.FromResult(_dapperService.Get<Polygon>
-                ($"select * from [BookLatLng] where ID = {id}", null, commandType: CommandType.Text));
+                ($"Id, ProjectId, NameProyect, Icon, Scale, NamePolygon, LineStyleColor, LineStyleWidth, PolyStyleColor FROM Polygon p with (nolock) where ID = {id}", null, commandType: CommandType.Text));
             return polygon;
         }
     }

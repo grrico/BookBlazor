@@ -125,17 +125,21 @@ using BookApp.Entities;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 21 "C:\GitHub\Book\BookBlazor\BookApp\Shared\InitializedMap.razor"
+#line 23 "C:\GitHub\Book\BookBlazor\BookApp\Shared\InitializedMap.razor"
        
 
-    string searchTerm { get; set; }
+    [Parameter] public string searchTerm { get; set; }
+
+
     int curPage;
     int pagerSize;
     int pageSize;
     string sortColumnName = "ID";
     string sortDir = "DESC";
 
+
     List<BookLatLng> bookLatLngs;
+    List<PolygonCoordinates> PolygonCoordinates;
 
     protected override async Task OnInitializedAsync()
     {
@@ -145,8 +149,15 @@ using BookApp.Entities;
         pagerSize = 3;
         pageSize = 8;
         curPage = 1;
+        if (searchTerm == "")
+        {
+            searchTerm = "9781292061184";
+        }
         bookLatLngs = await bookLatLngService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
 
+        searchTerm = "1";
+        pageSize = 1000;
+        PolygonCoordinates = await polygonCoordinates.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -171,6 +182,7 @@ using BookApp.Entities;
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPolygonCoordinatesService polygonCoordinates { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IBookLatLngService bookLatLngService { get; set; }
     }
 }

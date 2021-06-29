@@ -125,6 +125,17 @@ using BookApp.Entities;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 5 "C:\GitHub\Book\BookBlazor\BookApp\Pages\Book\Map\BookMaps.razor"
+      
+
+    private string obtenerId = "9781783989201";
+    
+
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591

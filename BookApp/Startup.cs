@@ -68,6 +68,11 @@ namespace BookApp
 
             //Register dapper in scope  
             services.AddScoped<IDapperService, DapperService>();
+            
+            services.AddScoped<IPolygonService, PolygonService>();
+
+            services.AddScoped<IPolygonCoordinatesService, PolygonCoordinatesService>();
+
 
             //  --------------------
 
