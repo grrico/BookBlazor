@@ -1,0 +1,94 @@
+﻿@inject IBookLatLngService bookLatLngService
+@inject IPolygonCoordinatesService polygonCoordinatesService
+@inject IJSRuntime JSRuntime
+
+@using System.Text.Json
+
+<h3>Initialized Map</h3>
+
+@if (bookLatLngs == null)
+{
+    <img src="https://media.giphy.com/media/y1ZBcOGOOtlpC/giphy.gif" />
+    <text>Cargando ...</text>
+}
+else if (bookLatLngs.Count() == 0)
+{
+    <text>No hay registros a mostrar.</text>
+}
+else
+{
+    <h3>Parametro: @searchTerm</h3>
+    <div class="input-group-append">
+        <div id="map" style="height:500px;width:100%;"></div>
+    </div>
+}
+
+@code {
+
+    [Parameter] public string searchTerm { get; set; }
+
+
+    int curPage;
+    int pagerSize;
+    int pageSize;
+    string sortColumnName = "ID";
+    string sortDir = "DESC";
+
+
+    List<BookLatLng> bookLatLngs;
+    List<PolygonCoordinates> polygonCoordinates;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //await Task.Delay(300);
+
+        pagerSize = 3;
+        pageSize = 8;
+        curPage = 1;
+        if (searchTerm == "")
+        {
+            searchTerm = "9781292061184";
+        }
+        bookLatLngs = await bookLatLngService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+
+        searchTerm = "1";
+        pageSize = 1000;
+        polygonCoordinates = await polygonCoordinatesService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (bookLatLngs == null)
+        {
+            pagerSize = 3;
+            pageSize = 8;
+            curPage = 1;
+            bookLatLngs = await bookLatLngService.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+        }
+
+        if (firstRender)
+        {
+
+            List<LatLng> lLatLngs = new List<LatLng>();
+            LatLng lLatLng;
+            foreach (PolygonCoordinates coodenada in polygonCoordinates)
+            {
+                lLatLng = new LatLng{
+                    lat = coodenada.Latitude.Value,
+                    lng = coodenada.Longitude.Value
+                };
+                lLatLngs.Add(lLatLng);
+            }
+
+            //Creating a JavaScriptSerializer Object
+
+            string serializedString = System.Text.Json.JsonSerializer.Serialize(lLatLngs);
+
+
+            var zoom = 26;
+            BookLatLng booklatlng = bookLatLngs.FirstOrDefault();
+            await JSRuntime.InvokeVoidAsync("initialize", bookLatLngs, booklatlng, zoom, serializedString);
+        }
+    }
+}
