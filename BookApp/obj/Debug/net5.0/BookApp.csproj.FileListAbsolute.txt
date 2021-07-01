@@ -366,3 +366,7 @@ C:\GitHub\Book\BookBlazor\BookApp\obj\Debug\net5.0\BookApp.pdb
 C:\GitHub\Book\BookBlazor\BookApp\obj\Debug\net5.0\BookApp.genruntimeconfig.cache
 C:\GitHub\Book\BookBlazor\BookApp\obj\Debug\net5.0\RazorDeclaration\Shared\InitializedMap.razor.g.cs
 C:\GitHub\Book\BookBlazor\BookApp\obj\Debug\net5.0\Razor\Shared\InitializedMap.razor.g.cs
+C:\Git\BookApp\BookApp\BookApp\obj\Debug\net5.0\RazorDeclaration\Shared\InitializedMap.razor.g.cs
+C:\Git\BookApp\BookApp\BookApp\obj\Debug\net5.0\Razor\Shared\InitializedMap.razor.g.cs
+C:\Git\BookApp\BookApp\BookApp\obj\Debug\net5.0\RazorDeclaration\Shared\BookComponent.razor.g.cs
+C:\Git\BookApp\BookApp\BookApp\obj\Debug\net5.0\Razor\Shared\BookComponent.razor.g.cs

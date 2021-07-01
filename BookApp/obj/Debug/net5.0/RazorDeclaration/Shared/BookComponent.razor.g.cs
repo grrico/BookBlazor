@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace BookApp
+namespace BookApp.Shared
 {
     #line hidden
     using System;
@@ -117,13 +117,25 @@ using BookApp.Entities;
 #line default
 #line hidden
 #nullable disable
-    public partial class _Imports : System.Object
+    public partial class BookComponent : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
-        protected void Execute()
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 28 "C:\Git\BookApp\BookApp\BookApp\Shared\BookComponent.razor"
+      
+
+    [Parameter] public BookAuPub Book { get; set; }
+    [Parameter] public EventCallback<BookAuPub> InsertBook { get; set; }
+
+   
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591

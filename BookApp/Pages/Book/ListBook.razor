@@ -21,6 +21,11 @@
     }
 </style>
 <a class="btn btn-primary" href='/Book/addBook'>Add new book</a>
+Mostrar Botón Eliminar
+<input type="checkbox" @bind="ShowDeleteButton" />
+&#8194;
+Mostrar Botón Editar
+<input type="checkbox" @bind="ShowEditButton" />
 @if (books == null)
 {
     <p><em>Loading...</em></p>
@@ -28,6 +33,8 @@
 else
 {
     <div class="row col-md-3 pull-right">
+
+
         <input type="text" id="txtSearch"
                placeholder="Search Titles..." class="form-control"
                @bind="SearchTerm" @bind:event="oninput" />
@@ -86,38 +93,20 @@ else
                     if (@book.ISBN != prevISBN)
                     {
                         <tr>
+                            
+                            <BookComponent Book="book"  InsertBook="InsertBook"></BookComponent>
+
                             <td>
                                 <hr style="padding:0px; margin:0px;">
-                                @book.ISBN
-                            </td>
-                            <td>
-                                <hr style="padding:0px; margin:0px;">
-                                @book.Title
-                            </td>
-                            <td>
-                                <hr style="padding:0px; margin:0px;">
-                                @book.AuthorName
-                            </td>
-                            <td>
-                                <hr style="padding:0px; margin:0px;">
-                                @book.PubYear
-                            </td>
-                            <td>
-                                <hr style="padding:0px;  margin:0px;">
-                                @book.PurchDate.ToShortDateString()
-                            </td>
-                            <td>
-                                <hr style="padding:0px; margin:0px;">
-                                @book.PubName
-                            </td>
-                            <td>
-                                <hr style="padding:0px; margin:0px;">
-                                <a class="btn btn-primary"
-                                   href='/Book/editBook/@book.ISBN'>
-                                    &#8194;Edit&#8194;
-                                </a>&#8194;
-                                <a class="btn btn-warning" @onclick="() =>
-                           DeleteBook((long)book.ISBN)">Delete</a>
+                                @if (ShowEditButton)
+                                {
+                                    <a class="btn btn-primary" href='/Book/editBook/@book.ISBN'>&#8194;Edit&#8194;</a>
+                                }
+                                &#8194;
+                                @if (ShowDeleteButton)
+                                {
+                                    <a class="btn btn-warning" @onclick="() => DeleteBook((long)book.ISBN)">Delete</a>
+                                }
                             </td>
                         </tr>
                     }
@@ -159,6 +148,10 @@ else
     </div>
 }
 @code {
+
+    [Parameter] public bool ShowDeleteButton { get; set; } = false;
+    [Parameter] public bool ShowEditButton { get; set; } = false;
+
     private string searchTerm;
     private string SearchTerm
     {
@@ -307,4 +300,13 @@ else
         endPage = 0;
         this.OnInitializedAsync().Wait();
     }
+
+    public void InsertBook(BookAuPub bookAuPub)
+    {
+        
+        //books.Remove(bookAuPub);
+
+        Console.WriteLine($"Insertado el libtro {bookAuPub.ISBN}");
+    }
+
 }

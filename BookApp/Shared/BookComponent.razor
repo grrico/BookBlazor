@@ -1,0 +1,33 @@
+﻿<td>
+    <hr style="padding:0px; margin:0px;">
+    @Book.ISBN
+</td>
+<td>
+    <hr style="padding:0px; margin:0px;">
+    @Book.Title
+</td>
+<td>
+    <hr style="padding:0px; margin:0px;">
+    @Book.AuthorName
+</td>
+<td>
+    <hr style="padding:0px; margin:0px;">
+    @Book.PubYear
+</td>
+<td>
+    <hr style="padding:0px;  margin:0px;">
+    @Book.PurchDate.ToShortDateString()
+</td>
+<td>
+    <hr style="padding:0px; margin:0px;">
+    @Book.PubName
+</td>
+<div>
+    <button @onclick="@(() => InsertBook.InvokeAsync(Book))">Insert</button>
+</div>
+@code{
+
+    [Parameter] public BookAuPub Book { get; set; }
+    [Parameter] public EventCallback<BookAuPub> InsertBook { get; set; }
+
+   }

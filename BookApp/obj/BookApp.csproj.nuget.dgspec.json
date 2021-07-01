@@ -1,23 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\Book\\BookBlazor\\BookApp\\BookApp.csproj": {}
+    "C:\\Git\\BookApp\\BookApp\\BookApp\\BookApp.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\Book\\BookBlazor\\BookApp\\BookApp.csproj": {
+    "C:\\Git\\BookApp\\BookApp\\BookApp\\BookApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\Book\\BookBlazor\\BookApp\\BookApp.csproj",
+        "projectUniqueName": "C:\\Git\\BookApp\\BookApp\\BookApp\\BookApp.csproj",
         "projectName": "BookApp",
-        "projectPath": "C:\\GitHub\\Book\\BookBlazor\\BookApp\\BookApp.csproj",
-        "packagesPath": "C:\\Users\\grico\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\Book\\BookBlazor\\BookApp\\obj\\",
+        "projectPath": "C:\\Git\\BookApp\\BookApp\\BookApp\\BookApp.csproj",
+        "packagesPath": "C:\\Users\\grric\\.nuget\\packages\\",
+        "outputPath": "C:\\Git\\BookApp\\BookApp\\BookApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\grico\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\grric\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,7 +27,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "http://sistecreditopaquetesdesarrollo.azurewebsites.net/nuget": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -91,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }
